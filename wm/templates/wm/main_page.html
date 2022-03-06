@@ -38,20 +38,19 @@
     cursor: pointer;
   }
 
-  .login_user_row {
-    background-color: azure;
+  .empty-row {
+    /* background-color: azure; */
+    height: 22px;
   }
 
 
 
 </style>
 
-<br><br>
-
 <div class="table-responsive">
 
-  <table class="">
-    <tr style="background-color: #edf3fa">
+  <table class="" style="background-color: #ecf5f1">
+    <tr style="background-color: #dff4f8">
       <td>user</td>
       <td>lecture/git</td>
       <td>chapter</td>
@@ -70,6 +69,11 @@
         <a href="http://www.skilnote-for-ts.co.kr/wm/myshortcut/{{u.username}}/1" title="{{u.profile.phone}}">
           {{u.username}}
         </a>
+        <a href="" class="btn btn-outline-dark btn-sm copy_to_me_from_wm" data-id={{u.id}} id={{u.username}}>
+          복사
+          <span class="" id="loading_for_copy_{{u.id}}" role="status" aria-hidden="true"></span>
+      </a>
+
       </td>
 
       <td>
@@ -186,6 +190,7 @@
 
       </td>
     </tr>
+    <tr class="empty-row"><td colspan="10"></td></tr>
 
     {% endfor %} {% else %}
 
@@ -388,6 +393,40 @@
         console.log('always');
       })
   });
+
+  $(".copy_to_me_from_wm").click(function(e){
+    e.preventDefault();
+    const author = this.id
+    // alert("this.id : " + this.id);
+    const row_id = $(this).data("id");
+
+    if (!author) {
+		return;
+	};
+
+    const selection = prompt("나의 wm을 모두 지운뒤 선택한 유저"+author+"의 노트를 복사하시겠습니까?(x,y)", "");
+    window.history.pushState("", "", '/wm/myshortcut/')
+
+    if (selection == "y" || selection == "Y") {
+        $("#loading_for_copy_"+row_id).addClass("spinner-border spinner-border-sm");
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'wm:copy_to_me_from_user_id' %}",
+            data: {
+                "author":author,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function(result) {
+                $("#loading_for_copy_"+row_id).removeClass("spinner-border spinner-border-sm");
+                alert("result.message (user_list_for_memo) : " + result.message)
+            }
+        });
+    } else {
+        alert("취소 하셨습니다.")
+    }
+});  
+
 
   {% endblock %}
 </script>
