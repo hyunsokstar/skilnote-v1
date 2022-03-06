@@ -1783,9 +1783,18 @@ def CategoryNickListByUserId_for_user(request, user_name):
         cn_my = CategoryNick.objects.get(author=user.id)
         print("cn_my : ", cn_my)
 
+        column_list = []
+
+        for i in range(1,10):
+            field_name = "ca" + str(i)
+            column_list.append(getattr(cn_my, field_name))
+            
+
         return render(request, 'wm/categorynick_list_for_user.html', {
             "category": cn_my,
-            "page_user": user_name
+            "column_list": column_list,
+            "page_user": user_name,
+            "range": range(1,120)
         })
     else:
         return HttpResponse("Request method is not a GET")
