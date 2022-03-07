@@ -3,11 +3,11 @@
 
 <h2>category list for {{category.author}}</h2>
 
-<table class="table table-bordered" id="todo_list">
-    {% for ca  in column_list %}
+<table class="" id="todo_list" style="width: 100%">
+    {% for ca in column_list %}
     <tr id="ca{{forloop.counter}}">
         <td>ca{{forloop.counter}}</td>
-         <td>
+        <td>
             <input
                 type="text"
                 name=""
@@ -19,21 +19,35 @@
         <td>
             {% if category.author == request.user %}
             <a
-                class="btn btn-outline-primary btn-sm cn-btn"
+                class="btn btn-outline-dark btn-sm cn-btn"
                 data-id="{{category.id}}"
                 data-field="ca{{forloop.counter}}"
                 >수정</a
             >
             {% endif %}
             <a
-                class="btn btn-outline-primary btn-sm"
+                class="btn btn-outline-dark btn-sm"
                 href="/wm/myshortcut/{{page_user}}/{{forloop.counter}}"
                 >이동</a
             >
-        </td> 
+
+            <a
+                class="btn btn-outline-dark btn-sm copy_chapter_to_x"
+                data-category="ca{{forloop.counter}}"
+                data-owner="{{category.author}}"
+                data-index="{{forloop.counter}}"
+            >
+                복사
+                <span
+                    class=""
+                    id="copy_chapter_loading_{{forloop.counter}}"
+                    role="status"
+                    aria-hidden="true"
+                ></span>
+            </a>
+        </td>
     </tr>
     {% endfor %}
-
 </table>
 
 {% else %}
@@ -47,9 +61,65 @@
 {% endif %}
 
 <!-- modal area -->
-<!-- js -->
+
+<!-- js area -->
 
 <script type="text/javascript">
+    $(".copy_chapter_to_x").click(function (e) {
+        e.preventDefault();
+        const owner = $(this).data("owner");
+        const category = $(this).data("category");
+        const index = $(this).data("index");
+        // alert(owner);
+        // alert(category);
+        // alert(index);
+
+        const selection = prompt(
+            `${owner} 노트의 ${category} 를 복사 하시겠습니까? (x,y)`
+        );
+
+        const destination_chapter = prompt(
+            `어느 챕터에 복사하시겠습니까(1 ~ 120)`
+        );
+
+        if (destination_chapter > 0 && destination_chapter < 121) {
+            console.log("챕터 선택 ok");
+        } else {
+            alert("1~ 121을 선택해 주세요");
+        }
+
+        if (selection == "y" || selection == "Y") {
+            $("#copy_chapter_loading_" + index).addClass(
+                "spinner-border spinner-border-sm"
+            );
+            $.ajax({
+                type: "POST",
+                url: "{% url 'wm:copy_chapter_to_x' %}",
+                data: {
+                    owner: owner,
+                    category: category,
+                    index: index,
+                    destination_chapter: destination_chapter,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                success: function (result) {
+                    $("#copy_chapter_loading_" + index).removeClass(
+                        "spinner-border spinner-border-sm"
+                    );
+                    alert(
+                        "result.message (user_list_for_memo) : " +
+                            result.message
+                    );
+                },
+            });
+        } else {
+            $("#copy_chapter_loading_" + index).removeClass(
+                "spinner-border spinner-border-sm"
+            );
+            alert("취소 하셨습니다.");
+        }
+    });
+
     $(".copyforNickSubjectBtn").click(function (e) {
         const author = $(this).data("author");
         const original_category = $(this).data("category");
