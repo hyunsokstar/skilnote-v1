@@ -19,20 +19,27 @@
         <td>
             {% if category.author == request.user %}
             <a
-                class="btn btn-outline-dark btn-sm cn-btn"
+                class="btn btn-outline-primary btn-sm cn-btn"
                 data-id="{{category.id}}"
                 data-field="ca{{forloop.counter}}"
                 >수정</a
             >
             {% endif %}
             <a
-                class="btn btn-outline-dark btn-sm"
+                class="btn btn-outline-success btn-sm"
                 href="/wm/myshortcut/{{page_user}}/{{forloop.counter}}"
                 >이동</a
             >
 
+            <input
+                type="text"
+                placeholder="to"
+                style="width: 40px"
+                class="input_for_chapter_copy"
+            />
+
             <a
-                class="btn btn-outline-dark btn-sm copy_chapter_to_x"
+                class="btn btn-outline-danger btn-sm copy_chapter_to_x"
                 data-category="ca{{forloop.counter}}"
                 data-owner="{{category.author}}"
                 data-index="{{forloop.counter}}"
@@ -78,13 +85,25 @@
 
         // alert(category_title);
 
-        const selection = prompt(
-            `${owner} 노트의 ${category} 를 복사 하시겠습니까? (x,y)`
-        );
+        // const selection = prompt(
+        //     `${owner} 노트의 ${category} 를 복사 하시겠습니까? (x,y)`
+        // );
 
-        const destination_chapter = prompt(
-            `어느 챕터에 복사하시겠습니까(1 ~ 120)`
-        );
+        const destination_chapter = $(this)
+            .siblings(".input_for_chapter_copy")
+            .val();
+        // alert("destination chapter : " + destination_chapter);
+
+        // if (destination_chapter > 0 && destination_chapter < 121) {
+        //     alert("1~ 120을 선택해 주세요");
+        //     return;
+        // }
+
+        if (destination_chapter == "") {
+            const destination_chapter = prompt(
+                `어느 챕터에 복사하시겠습니까(1 ~ 120)`
+            );
+        }
 
         if (destination_chapter > 0 && destination_chapter < 121) {
             console.log("챕터 선택 ok");
@@ -92,7 +111,7 @@
             alert("1~ 120을 선택해 주세요");
         }
 
-        if (selection == "y" || selection == "Y") {
+        // if (selection == "y" || selection == "Y") {
             $("#copy_chapter_loading_" + index).addClass(
                 "spinner-border spinner-border-sm"
             );
@@ -117,12 +136,12 @@
                     );
                 },
             });
-        } else {
-            $("#copy_chapter_loading_" + index).removeClass(
-                "spinner-border spinner-border-sm"
-            );
-            alert("취소 하셨습니다.");
-        }
+        // } else {
+        //     $("#copy_chapter_loading_" + index).removeClass(
+        //         "spinner-border spinner-border-sm"
+        //     );
+        //     alert("취소 하셨습니다.");
+        // }
     });
 
     $(".copyforNickSubjectBtn").click(function (e) {
