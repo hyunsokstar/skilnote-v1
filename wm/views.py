@@ -683,14 +683,20 @@ def copy_chapter_to_x(request):
     category = request.POST['category']
     index = request.POST['index']
     destination_chapter = request.POST['destination_chapter']
+    category_title = request.POST['category_title']
 
     owner_user = User.objects.get(username=owner)
 
+    print("category 111111: ", category)
+
     list_for_chapter_copy = MyShortCut.objects.filter(Q(author=owner_user) & Q(category = index))
     comment_for_chapter_copy = CommentForShortCut.objects.filter(Q(author=owner_user))    
-    print("list_for_chapter_copy : ", list_for_chapter_copy)       
+    print("list_for_chapter_copy : ", list_for_chapter_copy)
+    
+    CategoryNick.objects.filter(Q(author=request.user)).update(**{"ca"+destination_chapter: category_title})
 
-    MyShortCut.objects.filter(Q(author=request.user) & Q(category = index)).delete()
+    if(request.user.username != owner):
+        MyShortCut.objects.filter(Q(author=request.user) & Q(category = index)).delete()
     
     ca = Category.objects.get(id=destination_chapter)
     

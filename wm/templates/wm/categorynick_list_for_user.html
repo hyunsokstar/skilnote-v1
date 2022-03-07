@@ -36,6 +36,7 @@
                 data-category="ca{{forloop.counter}}"
                 data-owner="{{category.author}}"
                 data-index="{{forloop.counter}}"
+                data-category_title="{{ca}}"
             >
                 복사
                 <span
@@ -70,9 +71,12 @@
         const owner = $(this).data("owner");
         const category = $(this).data("category");
         const index = $(this).data("index");
+        const category_title = $(this).data("category_title");
         // alert(owner);
         // alert(category);
         // alert(index);
+
+        // alert(category_title);
 
         const selection = prompt(
             `${owner} 노트의 ${category} 를 복사 하시겠습니까? (x,y)`
@@ -85,7 +89,7 @@
         if (destination_chapter > 0 && destination_chapter < 121) {
             console.log("챕터 선택 ok");
         } else {
-            alert("1~ 121을 선택해 주세요");
+            alert("1~ 120을 선택해 주세요");
         }
 
         if (selection == "y" || selection == "Y") {
@@ -100,6 +104,7 @@
                     category: category,
                     index: index,
                     destination_chapter: destination_chapter,
+                    category_title: category_title,
                     csrfmiddlewaretoken: "{{ csrf_token }}",
                 },
                 success: function (result) {
