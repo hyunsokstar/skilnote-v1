@@ -695,8 +695,8 @@ def copy_chapter_to_x(request):
     
     CategoryNick.objects.filter(Q(author=request.user)).update(**{"ca"+destination_chapter: category_title})
 
-    if(request.user.username != owner):
-        MyShortCut.objects.filter(Q(author=request.user) & Q(category = index)).delete()
+    # if(request.user.username != owner):
+    #     MyShortCut.objects.filter(Q(author=request.user) & Q(category = index)).delete()
     
     ca = Category.objects.get(id=destination_chapter)
     
