@@ -3,6 +3,7 @@
 
 <h2>category list for {{category.author}}</h2>
 
+1234 1234
 <table class="" id="todo_list" style="width: 100%">
     {% for ca in column_list %}
     <tr id="ca{{forloop.counter}}">
@@ -16,7 +17,15 @@
                 class="form-control"
             />
         </td>
+
         <td>
+
+            <a
+                class="btn btn-outline-success btn-sm"
+                href="/wm/myshortcut/{{page_user}}/{{forloop.counter}}"
+                >이동</a
+            >
+
             {% if category.author == request.user %}
             <a
                 class="btn btn-outline-primary btn-sm cn-btn"
@@ -24,13 +33,9 @@
                 data-field="ca{{forloop.counter}}"
                 >수정</a
             >
-            {% endif %}
-            <a
-                class="btn btn-outline-success btn-sm"
-                href="/wm/myshortcut/{{page_user}}/{{forloop.counter}}"
-                >이동</a
-            >
 
+            {% endif %}
+            {% if request.user.is_authenticated %}
             <input
                 type="text"
                 placeholder="to"
@@ -53,6 +58,7 @@
                     aria-hidden="true"
                 ></span>
             </a>
+            {% endif %}
         </td>
     </tr>
     {% endfor %}
