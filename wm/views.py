@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from .forms import MyShortCutForm_input, SkilNoteForm, MyShortCutForm_image, MyShortCutForm_summer_note2, InsertFormForOhterUserNote
 from accounts2.models import Profile
-from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut, TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage, LectureBookMark, AllowListForSkilNote, MyPlan
+from .models import MyShortCut, Type, Category, CategoryNick, CommentForShortCut, TempMyShortCut, TempMyShortCutForBackEnd, CommentForShortCut, RecommandationUserAboutSkillNote, CommentForPage, LectureBookMark, AllowListForSkilNote, MyPlan, LectureBookMark
 from skilblog.models import SkilBlogTitle, SkilBlogContent
 from django.http import HttpResponseRedirect
 from datetime import datetime, timedelta
@@ -18,8 +18,71 @@ from . forms import CommentForm
 from django.utils.datastructures import MultiValueDictKeyError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+# 11111111
+def delete_lecture_list(request, lecture_id):
+    user = request.user.username
 
-# 1111111111
+    if request.method == "POST" and request.is_ajax():
+        gb = LectureBookMark.objects.filter(Q(id=lecture_id)).delete()
+        print('MyPlan Delete 성공 : ', lecture_id)
+        return JsonResponse({
+            'message': 'my plan 삭제 성공 ',
+        })
+    else:
+        return redirect('/wm/myshorcut/')
+
+def update_lecture_bookmark(request):
+    print("update_plan 실행 확인")
+
+    user = request.user
+    if request.method == "POST" and request.is_ajax():
+        lecture_id = request.POST.get('lecture_id', '')
+        lecture_title = request.POST.get('lecture_title', '')
+        lecture_url = request.POST.get('lecture_url', '')
+        
+        print("lecture_id : ", lecture_id)
+        print("lecture_title : ", lecture_title)
+        print("lecture_url : ", lecture_url)
+        
+        my_lecture_bookmark = LectureBookMark.objects.filter(id=lecture_id).update(
+            title=lecture_title,
+            lecture_url=lecture_url,
+        )
+        print('Lecture update Success !!!!!!!!!')
+        return JsonResponse({
+            'message': 'Plan Update Success',
+            'lecture_title':lecture_title,
+            'lecture_url':lecture_url
+        })
+    else:
+        return redirect('/todo')
+
+
+# insert_for_lecture_list
+def insert_for_lecture_list(request):
+    print("insert_for_lecture_list 실행")
+    lecture_title = request.POST['lecture_title']
+
+    my_lecture = LectureBookMark.objects.create(
+        author = request.user,
+        title =lecture_title
+    )
+
+    print("author : ", my_lecture.author)
+    print("lecture_title : ", my_lecture.title)
+    print("lecture_id : ", my_lecture.id)
+    # print("plan_end_time : ", my_plan.end_time)
+    # print("plan_start_ca : ", my_plan.start_ca)
+
+    return JsonResponse({
+        'message': 'my_lecture row 추가 성공',
+        "lecture_id":my_lecture.id,
+        "lecture_author":my_lecture.author.username,
+        "lecture_title":my_lecture.title,
+        "lecture_created_at": my_lecture.created_at
+    })
+
+
 def lecture_list_for_user(request):
     if request.method == 'GET':
         print("geust_book_list 실행")
@@ -27,7 +90,7 @@ def lecture_list_for_user(request):
         object_list = LectureBookMark.objects.filter(author=owner).order_by('created_at')
         print("object_list : ", object_list)
 
-        return render(request, 'wm/guest_book_list.html', {
+        return render(request, 'wm/lecture_list.html', {
             "object_list": object_list,
         })
     else:
@@ -71,7 +134,7 @@ def insert_plan(request):
         "plan_end_ca":my_plan.end_ca,
         "owner_for_plan":my_plan.owner_for_plan.username,
     })
-
+    
 def update_plan(request):
     print("update_plan 실행 확인")
 

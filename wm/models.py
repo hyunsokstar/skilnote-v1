@@ -7,8 +7,8 @@ from django.utils import timezone
 
 class LectureBookMark(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
-    title = models.ForeignKey(User, on_delete=models.CASCADE)
-    lecture = models.CharField(max_length=40)
+    title = models.CharField(max_length=20, blank=True, null= True)
+    lecture_url = models.CharField(max_length=40)
     description = models.CharField(max_length=40)
     created_at = models.DateTimeField(auto_now_add=True , editable = False)
 

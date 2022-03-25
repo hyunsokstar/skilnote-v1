@@ -54,15 +54,22 @@ urlpatterns = [
          name="insert_temp_skill_note_for_textarea"),  # mini note insert front
     path('myshortcut/insert_for_guest_book/', views.insert_for_guest_book,
          name="insert_for_guest_book"),  # geust book insert
-    
-    
-#     path('myshortcut/guest_book_list/<str:guest_book_owner>',
-#          views.guest_book_list, name="guest_book_list"),  # guest_book_list
+
+
+    #     path('myshortcut/guest_book_list/<str:guest_book_owner>',
+    #          views.guest_book_list, name="guest_book_list"),  # guest_book_list
 
     path('myshortcut/lecture_list_for_user',
          views.lecture_list_for_user, name="lecture_list_for_user"),  # lecture_list
 
+    # lecture 관련
+    path('myshortcut/insert_for_lecture_list', views.insert_for_lecture_list,
+         name="insert_for_lecture_list"),
 
+    path('myshortcut/update_lecture_bookmark', views.update_lecture_bookmark, name='update_lecture_bookmark'),
+
+    path('myshortcut/delete_lecture_list/<int:lecture_id>',
+         views.delete_lecture_list, name="delete_lecture_list"),
 
     # plan 관련
     path('myshortcut/plan_list_for_user/<str:plan_user>',
@@ -70,7 +77,7 @@ urlpatterns = [
 
     # plan insert
     path('myshortcut/insert_plan', views.insert_plan,
-         name="insert_plan"),  
+         name="insert_plan"),
     path('myshortcut/delete_plan_list/<int:plan_id>',
          views.delete_plan_list, name="delete_plan_list"),
 
@@ -82,7 +89,7 @@ urlpatterns = [
     path('myshortcut/delete_guest_book_list/<int:id>',
          views.delete_guest_book_list, name="delete_guest_book_list"),
 
-    
+
     path('myshortcut/delete_comment_for_skilpage/<int:id>',
          views.delete_comment_for_skilpage, name="delete_comment_for_skilpage"),
     path('myshortcut/temp_skill_list_for_backend/<page_user>',
