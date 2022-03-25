@@ -1,33 +1,39 @@
 {% load static %}
 
-
-
         <button type="button" class="btn btn-outline-primary insert_btn_for_guset_book_list" style="float: right;">계획 쓰기</button>
-
 
         <table class="table table-bordered" id="todo_list" width="100%">
             <tr>
                 <td>id</td>
                 <td>author</td>
                 <td>content</td>
-                <td>created_at</td>
+                <td>completed</td>
+                <td>created</td>
                 <td>삭제</td>
             </tr>
             {% if object_list.exists %}
 
-            {% for guest_book in object_list %}
-            <tr id="guest_book_row_{{guest_book.id}}">
-                <td>{{guest_book.id}}</td>
-                <td id=author_{{guest_book.id}}>{{guest_book.author}}</td>
+            {% for plan in object_list %}
+            <tr id="plan_row_{{plan.id}}">
+                <td>{{plan.id}}</td>
+                <td id=author_{{plan.id}}>{{plan.author}}</td>
                 <td>
-                    <input type="text" class="" size="100%" value="{{guest_book.content}}">
+                    <input type="text" class="" size="100%" value="{{plan.content}}">
+                    <button>이동</button>
+                    <input type="text" class="" size="50%" placeholder="subbject"/>
+                    <input type="text" class="" size="25%" placeholder="start"/>
+                    <input type="text" class="" size="25%" placeholder="end" />
                 </td>
+
+                <td>completed</td>
+                <td>{{plan.completed}}</td>
+
                 <td>
-                    {{guest_book.created_at}}
+                    {{plan.created_at}}
                 </td>
                 <td>
                     <a href="#">
-                        <img class="delete_btn_for_guest_book_list" src="{% static 'icon/x_mark.png' %}" data-author={{guest_book.author}} id="{{guest_book.id}}" alt="" >
+                        <img class="delete_btn_for_plan_list" src="{% static 'icon/x_mark.png' %}" data-author={{plan.author}} id="{{plan.id}}" alt="" >
                     </a>
 
                 </td>
@@ -41,27 +47,27 @@
                 </td>
             </tr>
             {% endif %}
-            <tbody id="guest_book_tbody"></div>
+            <tbody id="plan_tbody"></div>
         </table>
 
 
 <!-- underscore template area -->
 
 <!-- mini note for backend modal insert textarea -->
-<script class="guest_book_row" type="text/x-template">
+<script class="plan_row" type="text/x-template">
 
-    <tr id="guest_book_row_<%=guest_book_id%>">
-        <td><%=guest_book_id%></td>
-        <td><%=guest_book_author%></td>
+    <tr id="plan_row_<%=plan_id%>">
+        <td><%=plan_id%></td>
+        <td><%=plan_author%></td>
         <td>
-            <input type="text" class=""  size="100%" value="<%=guest_book_content%>">
+            <input type="text" class=""  size="100%" value="<%=plan_content%>">
         </td>
         <td>
-            <%=guest_book_created_at%>
+            <%=plan_created_at%>
         </td>
         <td>
             <a href="#">
-                <img class="delete_btn_for_guest_book_list" src="{% static 'icon/x_mark.png' %}" data-author=<%=guest_book_author%> id=<%=guest_book_id %> alt="" >
+                <img class="delete_btn_for_plan_list" src="{% static 'icon/x_mark.png' %}" data-author=<%=plan_author%> id=<%=plan_id %> alt="" >
             </a>
         </td>
     </tr>
@@ -72,7 +78,7 @@
 <!-- js area -->
 <script type="text/javascript">
 
-    $('body').on('click', '.delete_btn_for_guest_book_list', function(e) {
+    $('body').on('click', '.delete_btn_for_plan_list', function(e) {
         console.log('delete guest book row!');
         e.preventDefault();
         var id = $(this).attr("id");
@@ -90,7 +96,7 @@
                         csrfmiddlewaretoken: '{{ csrf_token }}'
                     },
                     success: function (result) {
-                            $("#guest_book_row_" + id).remove();
+                            $("#plan_row_" + id).remove();
                             alert(result.message);
                         }
                     });
@@ -102,7 +108,7 @@
     });
 
 
-    // $(".delete_btn_for_guest_book_list").click(function (e) {
+    // $(".delete_btn_for_plan_list").click(function (e) {
     //     // alert("삭제 버튼 클릭 확인");
     //
     //     e.preventDefault();
@@ -110,12 +116,12 @@
     //
     // 	$.ajax({
     // 		type: "POST",
-    // 		url: '/wm/myshortcut/delete_guest_book_list/' + id,
+    // 		url: '/wm/myshortcut/delete_plan_list/' + id,
     // 		data: {
     // 			csrfmiddlewaretoken: '{{ csrf_token }}'
     // 		},
     // 		success: function (result) {
-    // 			$("#guest_book_row_" + id).remove();
+    // 			$("#plan_row_" + id).remove();
     // 			alert(result.message);
     // 		}
     //     });
@@ -146,18 +152,18 @@
     				alert(result.message);
 
     				// underscore를 이용해 row 추가 하기
-    				var guest_book_row_template = $('.guest_book_row').html();
-    				var tpl = _.template(guest_book_row_template);
+    				var plan_row_template = $('.plan_row').html();
+    				var tpl = _.template(plan_row_template);
     				var table_row = $('.table_row').length;
                     //
     				var rendered = tpl({
     					table_row_id: table_row + 1,
-                        guest_book_id : result.guest_book_id,
-    					guest_book_author: result.guest_book_author,
-    					guest_book_content: result.guest_book_content,
-    					guest_book_created_at: result.guest_book_created_at,
+                        plan_id : result.plan_id,
+    					plan_author: result.plan_author,
+    					plan_content: result.plan_content,
+    					plan_created_at: result.plan_created_at,
     				});
-    				$(rendered).appendTo($('#guest_book_tbody'));
+    				$(rendered).appendTo($('#plan_tbody'));
     			}
     		});
     	} else {

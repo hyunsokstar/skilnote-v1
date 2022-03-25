@@ -82,7 +82,6 @@ class SkilBlogTitleList(LoginRequiredMixin,ListView):
         context['query'] =  self.request.GET.get('q')
         return context
 
-
 def SkilBlogContentList(request,id):
     print('SkilBlogTitle id를 참조하는 skilblog content를 출력 할것입니다 !!!!! ')
     print('SkilBlogTitle id check::::::::::::::: ',id)

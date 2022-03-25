@@ -11,7 +11,8 @@ SECRET_KEY = 'qki)d54cmpt_v7b5m07qh$d#o3j6#pm3gi=po&)b2a59$e859x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['158.247.227.197','127.0.0.1', 'www.skilnote-for-ts.co.kr', 'skilnote-for-ts.co.kr']
+ALLOWED_HOSTS = ['158.247.227.197', '127.0.0.1',
+                 'www.skilnote-for-ts.co.kr', 'skilnote-for-ts.co.kr']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
@@ -35,18 +36,19 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'todo',
-    'bestlec', # 강의 추천
-    'accounts2', # 계정 관리
-    'management', # 제안 사항
-    'challenge', # 챌린지
-    'board', #personal memo
-    'pd', #persional desk
-    'skilblog', # 스킬 블로그
-    'blog', # tech note
+    'bestlec',  # 강의 추천
+    'accounts2',  # 계정 관리
+    'management',  # 제안 사항
+    'challenge',  # 챌린지
+    'board',  # personal memo
+    'pd',  # persional desk
+    'skilblog',  # 스킬 블로그
+    'blog',  # tech note
     'wm',
     'skilnote2',
     'skilnote3',
-    'skilnote4'
+    'skilnote4',
+    'django_sass',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +69,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR,'reservation_app','templates'),
+            os.path.join(BASE_DIR, 'reservation_app', 'templates'),
             os.path.join(BASE_DIR, 'allauth_templates')
         ],
         'APP_DIRS': True,
@@ -134,7 +136,7 @@ AUTHENTICATION_BACKENDS = (
 
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-# `allauth` specific authentication methods, such as login by e-mail
+    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 
 )
@@ -151,7 +153,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'reservation_app', 'static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'_media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 
 MEDIA_URL = '/media/'
 
@@ -176,4 +178,4 @@ INTERNAL_IPS = [
 ]
 
 X_FRAME_OPTIONS = 'ALLOWALL'
-XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+XS_SHARING_ALLOWED_METHODS = ['POST', 'GET', 'OPTIONS', 'PUT', 'DELETE']

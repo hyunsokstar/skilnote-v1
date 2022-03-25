@@ -355,7 +355,7 @@ img.Image { max-width: 100%; display: block; }
 
 <div class="sideicon_for_scroll">
 
-	<button type="button" name="button" class="before_btn btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list' %}'">L</button><br>
+	<button type="button" name="button" class="read-mode btn btn-outline-dark btn-sm" onclick="window.location.href = '{% url 'wm:my_shortcut_list' %}'">L</button><br>
 	<a href="" class="btn btn-outline-primary btn-sm" id="insert_first_for_skill_note_btn"> 첫글</a><br>
 	<a href="" class="btn btn-outline-primary btn-sm" id="shortcut_delete_button "> 삭제 </a> <br>
 	<a href="" class="btn btn-outline-primary btn-sm" id="ca_plus_1_btn" data-category={{cateogory}}>
@@ -379,7 +379,7 @@ img.Image { max-width: 100%; display: block; }
 	<button type="button" name="button" class="go_start_line_btn btn btn-outline-info" id="">F</button><br>
 	<button type="button" name="button" class="go_end_line_btn btn btn-outline-info mb-2" id="">E</button><br><br>
 
-	<input type="text" name="" size=2  value="{{request.user.profile.selected_category_id}}" id="ch_input"><br>
+	<input type="text" name="" size=2  value="{{reqㅂuest.user.profile.selected_category_id}}" id="ch_input"><br>
 	<button type="button" name="button" class="next_channer_btn btn btn-outline-dark btn-sm" id="">go</button><br>
 
 	<button type="button" class="go_to_before_channer_btn btn btn-outline-dark btn-sm">
@@ -797,9 +797,7 @@ $(function() {
     if (e.ctrlKey && e.which === 39) {
 	  $(".go_to_next_channer_btn").trigger("click");
     }
-	if (e.altKey && e.which === 49) {
-	  $(".new3_btn").trigger("click");
-    }
+
 	if (e.altKey && e.which === 50) {
 	  $(".new1_btn").trigger("click");
 	}
@@ -809,6 +807,19 @@ $(function() {
 	if (e.altKey && e.which === 52) {
 	  $(".insert_image").trigger("click");
 	}
+
+	if (e.altKey && e.which === 49) {
+		console.log("리드 모드");
+	  $(".read-mode").trigger("click");
+    }	
+
+	if (e.ctrlKey && e.which === 38) {
+	  $(".before_btn").trigger("click");
+	}
+	if (e.ctrlKey && e.which === 40) {
+	  $(".next_btn").trigger("click");
+	}
+
   })
 
   window.scrollTo(0,document.body.scrollHeight);

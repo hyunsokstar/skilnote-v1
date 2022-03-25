@@ -8,19 +8,29 @@ app_name = 'wm'
 urlpatterns = [
     # 1122
     path('main_page/', views.main_page.as_view(), name="main_page"),
-    path('myshortcut/update_for_permission', views.update_for_permission, name="update_for_permission"),
-    path('myshortcut/update_for_start', views.update_for_start, name="update_for_start"),
+
+    path('myshortcut/supllement_explain/<str:user_id>/<str:category>',
+         views.supllement_explain, name="supllement_explain"),
+
+
+    path('myshortcut/update_for_permission',
+         views.update_for_permission, name="update_for_permission"),
+    path('myshortcut/update_for_start',
+         views.update_for_start, name="update_for_start"),
     path('myshortcut/update_for_end', views.update_for_end, name="update_for_end"),
-    
-    
-    path('myshortcut/joinForOtherMemberNote', views.joinForOtherMemberNote, name="joinForOtherMemberNote"),
-    path('myshortcut/cancleForOtherMemberNote', views.cancleForOtherMemberNote, name="joinForOtherMemberNote"),
-    
-    path('myshortcut/allow_list/<str:skilnote_owner>', views.allow_list.as_view(), name="allow_list"),
-    
+
+
+    path('myshortcut/joinForOtherMemberNote',
+         views.joinForOtherMemberNote, name="joinForOtherMemberNote"),
+    path('myshortcut/cancleForOtherMemberNote',
+         views.cancleForOtherMemberNote, name="joinForOtherMemberNote"),
+
+    path('myshortcut/allow_list/<str:skilnote_owner>',
+         views.allow_list.as_view(), name="allow_list"),
+
     path('userlist/loginpage', views.user_list_for_login_page.as_view(),
          name='user_list_for_login_page'),
-#     path('', views.SkilNoteListView.as_view(), name="my_shortcut_list"),
+    #     path('', views.SkilNoteListView.as_view(), name="my_shortcut_list"),
     path('', views.main_page.as_view(), name="main_page"),
     path('myshortcut/search_skil_note_for_me/',
          views.search_skil_note_for_me.as_view(), name="search_skil_note_for_me"),
@@ -30,16 +40,13 @@ urlpatterns = [
          views.search_skilnote_by_file_name_for_me.as_view(), name="search_skilnote_by_file_name_for_me"),
     path('myshortcut/search_skilnote_by_file_name_for_all/',
          views.search_skilnote_by_file_name_for_all.as_view(), name="search_skilnote_by_file_name_for_all"),
-    
+
     path('myshortcut/copy_chapter_to_x/',
-         views.copy_chapter_to_x, name='copy_chapter_to_x'),     
-    
+         views.copy_chapter_to_x, name='copy_chapter_to_x'),
+
     path('myshortcut/copy_to_me_from_user_id/',
          views.copy_to_me_from_user_id, name='copy_to_me_from_user_id'),
-   
-    
-    
-    
+
     path('myshortcut/', views.SkilNoteListView.as_view(), name="my_shortcut_list"),
     path('myshortcut2/', views.MyShortCutListView2.as_view(),
          name="my_shortcut_list2"),
@@ -47,10 +54,35 @@ urlpatterns = [
          name="insert_temp_skill_note_for_textarea"),  # mini note insert front
     path('myshortcut/insert_for_guest_book/', views.insert_for_guest_book,
          name="insert_for_guest_book"),  # geust book insert
-    path('myshortcut/guest_book_list/<str:guest_book_owner>',
-         views.guest_book_list, name="guest_book_list"),  # guest_book_list
+    
+    
+#     path('myshortcut/guest_book_list/<str:guest_book_owner>',
+#          views.guest_book_list, name="guest_book_list"),  # guest_book_list
+
+    path('myshortcut/lecture_list_for_user',
+         views.lecture_list_for_user, name="lecture_list_for_user"),  # lecture_list
+
+
+
+    # plan 관련
+    path('myshortcut/plan_list_for_user/<str:plan_user>',
+         views.plan_list_for_user, name="plan_list_for_user"),  # guest_book_list
+
+    # plan insert
+    path('myshortcut/insert_plan', views.insert_plan,
+         name="insert_plan"),  
+    path('myshortcut/delete_plan_list/<int:plan_id>',
+         views.delete_plan_list, name="delete_plan_list"),
+
+    path('myshortcut/update_plan_complete',
+         views.update_plan_complete, name='update_plan_complete'),
+    path('myshortcut/update_plan', views.update_plan, name='update_plan'),
+
+
     path('myshortcut/delete_guest_book_list/<int:id>',
          views.delete_guest_book_list, name="delete_guest_book_list"),
+
+    
     path('myshortcut/delete_comment_for_skilpage/<int:id>',
          views.delete_comment_for_skilpage, name="delete_comment_for_skilpage"),
     path('myshortcut/temp_skill_list_for_backend/<page_user>',
@@ -68,10 +100,9 @@ urlpatterns = [
     path('new_comment_for_skilpage/<str:user_name>/<str:category_id>/',
          views.new_comment_for_skilpage, name="new_comment_for_skilpage"),
     path('manual', views.manualPage, name="manual"),
-    
+
     path('myshortcut/update_skil_note_file_name/<int:id>',
          views.update_skil_note_file_name, name="update_skil_note_file_name"),
-    
 
     path('myshortcut/category_plus_1_for_current_user',
          views.category_plus_1_for_current_user, name='category_plus_1_for_current_user'),
