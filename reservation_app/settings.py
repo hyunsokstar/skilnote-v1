@@ -12,7 +12,7 @@ SECRET_KEY = 'qki)d54cmpt_v7b5m07qh$d#o3j6#pm3gi=po&)b2a59$e859x'
 DEBUG = True
 # ALLOWED_HOSTS = []
 ALLOWED_HOSTS = ['158.247.227.197', '127.0.0.1',
-                 'www.skilnote-for-ts.co.kr', 'skilnote-for-ts.co.kr']
+                 'www.skilnote-for-innotree.co.kr', 'skilnote-for-innotree.co.kr']
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Application definition
